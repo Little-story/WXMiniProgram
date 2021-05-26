@@ -63,3 +63,5 @@ spring:
     password:
     #连接超时时间
     timeout: 5000
+
+WXNotifyUrl: https://hotel.233esports.com

@@ -42,7 +42,7 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private ShopRepository shopRepository;
 
-    @Value("${WXNotifyUrl}")
+    @Value("WXNotifyUrl")
     private String WXNotifyUrl;
 
     private static Logger LOGGER = LoggerFactory.getLogger(PayServiceImpl.class);

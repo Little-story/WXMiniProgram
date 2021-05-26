@@ -1,13 +1,11 @@
 package com.nined.esportsota;
 
-import com.nined.esportsota.utils.WXUtil;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class EsportsOtaApplicationTests {
-
 
     @Test
     void contextLoads() throws Exception{
