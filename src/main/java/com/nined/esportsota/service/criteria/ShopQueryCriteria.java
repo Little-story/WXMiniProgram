@@ -22,4 +22,9 @@ public class ShopQueryCriteria {
     private String latitude;
 
 
+    @Query
+    private Integer status;
+
+    @Query
+    private Integer typeId;
 }

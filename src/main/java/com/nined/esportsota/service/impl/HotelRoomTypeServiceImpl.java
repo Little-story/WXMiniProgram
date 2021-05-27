@@ -33,6 +33,7 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
 
     @Override
     public Object queryAll(HotelRoomTypeQueryCriteria criteria, Pageable pageable) {
+        criteria.setStatus(1);
         Page<HotelRoomType> page=hotelRoomTypeRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         List<HotelRoomType> list=page.getContent();
         if (!StringUtils.isEmpty(list)||list.size()>0){

@@ -1,40 +1,23 @@
 package com.nined.esportsota;
 
+import com.alibaba.fastjson.JSONObject;
+import com.nined.esportsota.repository.ShopRepository;
+import com.nined.esportsota.utils.BaiduMapUtil;
+import com.nined.esportsota.utils.LocalUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EsportsOtaApplicationTests {
 
+    @Autowired
+    private ShopRepository shopRepository;
+
     @Test
-    void contextLoads() throws Exception{
-
+    void contextLoads(){
+        shopRepository.updateLocation(24,"111","222");
     }
-
-    /*public String getOrderId() {
-        Date today = new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd");
-        String prefix=sdf.format(today);
-        String lastNo=hotelOrderRepository.findByPrefix(prefix);
-        if (lastNo == null || lastNo.startsWith(prefix) == false) {
-            Integer seq = 1;
-            String newNo = prefix + StringUtil.leftPad(seq.toString(), 5, "0");
-
-            while (hotelOrderRepository.findByNewNo(newNo) != null) {
-                seq += 1;
-                newNo = prefix + StringUtil.leftPad(seq.toString(), 5, "0");
-            }
-            return newNo;
-        } else {
-            Integer seq = Integer.parseInt(lastNo.substring(prefix.length())) + 1;
-            String newNo = prefix + StringUtil.leftPad(seq.toString(), 5, "0");
-            while (hotelOrderRepository.findByNewNo(newNo) != null) {
-                seq += 1;
-                newNo = prefix + StringUtil.leftPad(seq.toString(), 5, "0");
-            }
-            return newNo;
-        }
-    }*/
 
 }

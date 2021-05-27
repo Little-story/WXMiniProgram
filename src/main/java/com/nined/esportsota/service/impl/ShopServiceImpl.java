@@ -1,5 +1,6 @@
 package com.nined.esportsota.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nined.esportsota.domain.HotelRoom;
 import com.nined.esportsota.domain.HotelRoomType;
 import com.nined.esportsota.domain.Shop;
@@ -11,6 +12,7 @@ import com.nined.esportsota.service.ShopService;
 import com.nined.esportsota.service.criteria.ShopQueryCriteria;
 import com.nined.esportsota.service.dto.ShopDTO;
 import com.nined.esportsota.service.mapper.ShopMapper;
+import com.nined.esportsota.utils.BaiduMapUtil;
 import com.nined.esportsota.utils.PageUtil;
 import com.nined.esportsota.utils.QueryHelp;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +48,8 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Object queryAll(ShopQueryCriteria criteria, Pageable pageable) {
-
+        criteria.setStatus(1);
+        criteria.setTypeId(2);
         String name="'%%'";
         if (!StringUtils.isEmpty(criteria.getName())){
             name="'%"+criteria.getName()+"%'";
@@ -55,7 +58,7 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> list=new ArrayList<>();
         if (!StringUtils.isEmpty(criteria.getLongitude())&&!StringUtils.isEmpty(criteria.getLatitude())){
             //根据经纬度排序
-            String sql= MessageFormat.format("select * from shop where name like {0} order by ABS({1}-longitude) DESC,ABS({2}-latitude) DESC limit {3},{4}",
+            String sql= MessageFormat.format("select * from shop where name like {0} and status=1 and type_id=2 order by ABS({1}-longitude) ASC,ABS({2}-latitude) ASC limit {3},{4}",
                     name,criteria.getLongitude(),criteria.getLatitude(),pageable.getPageNumber()* pageable.getPageSize(),pageable.getPageSize());
             list=entityManager.createNativeQuery(sql,Shop.class).getResultList();
         }else {
@@ -81,6 +84,14 @@ public class ShopServiceImpl implements ShopService {
 
     //补充酒店首页信息
     private Shop addInfo(Shop shop){
+        if (StringUtils.isEmpty(shop.getLongitude())||StringUtils.isEmpty(shop.getLatitude())){
+            //补充经纬度信息
+            if (!StringUtils.isEmpty(shop.getCity())&&!StringUtils.isEmpty(shop.getDistrict())&&!StringUtils.isEmpty(shop.getAddress())){
+                String address=shop.getCity()+shop.getDistrict()+shop.getAddress();
+                JSONObject object=BaiduMapUtil.getLocation(address);
+                shopRepository.updateLocation(shop.getId(),object.getString("lng"),object.getString("lat"));
+            }
+        }
         HotelRoomType hotelRoomType=hotelRoomTypeRepository.findOne(shop.getId());
         int roomNum=hotelRoomRepository.countByShopId(shop.getId());
         if (!StringUtils.isEmpty(hotelRoomType)){

@@ -62,4 +62,8 @@ spring:
     #连接超时时间
     timeout: 5000
 
-WXNotifyUrl: https://hotel.233esports.com
+url: https://hotel.233esports.com
+
+file:
+  path:
+    shopDir: /usr/local/wwwroot/file/sportapi/file/shop/

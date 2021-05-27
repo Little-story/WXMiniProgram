@@ -3,7 +3,6 @@ package com.nined.esportsota.utils;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.nined.esportsota.exception.BadRequestException;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -13,8 +12,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.springframework.util.StringUtils;
-import sun.misc.IOUtils;
 
 import javax.net.ssl.SSLContext;
 import java.io.ByteArrayInputStream;
@@ -83,7 +80,7 @@ public class WXUtil {
 
 
     /**
-     * 加载指定商户号对应的证书
+     * 加载指定商户号对应的证书(证书要放到项目相同位置)
      */
     public static InputStream getCertStream() throws IOException {
         byte[] certData = null;

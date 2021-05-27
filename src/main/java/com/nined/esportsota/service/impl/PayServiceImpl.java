@@ -42,8 +42,8 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private ShopRepository shopRepository;
 
-    @Value("WXNotifyUrl")
-    private String WXNotifyUrl;
+    @Value("${url}")
+    private String url;
 
     private static Logger LOGGER = LoggerFactory.getLogger(PayServiceImpl.class);
 
@@ -169,7 +169,7 @@ public class PayServiceImpl implements PayService {
 
     private String getNotifyUrl(){
         //服务域名
-        return WXNotifyUrl + "/ota/wx/xcxNotify";
+        return url + "/ota/wx/xcxNotify";
     }
 
     public Integer getOrderUserCode() {

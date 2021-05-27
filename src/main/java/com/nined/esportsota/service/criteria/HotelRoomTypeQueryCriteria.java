@@ -8,4 +8,7 @@ public class HotelRoomTypeQueryCriteria {
 
     @Query
     private Integer shopId;
+
+    @Query
+    private Integer status;
 }
