@@ -62,7 +62,6 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String shopUtl="file:"+shopDir.replace("\\","/");
-        System.out.println(shopUtl);
         registry.addResourceHandler("/api/shopDir/**").addResourceLocations(shopUtl).setCachePeriod(0);
         registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(0);
     }

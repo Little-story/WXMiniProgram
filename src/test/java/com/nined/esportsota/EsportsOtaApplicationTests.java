@@ -17,7 +17,15 @@ class EsportsOtaApplicationTests {
 
     @Test
     void contextLoads(){
-        shopRepository.updateLocation(24,"111","222");
+        String origin="113.323552,23.105838";
+        String destination="113.377626,23.118942";
+        JSONObject object=BaiduMapUtil.driving(origin,destination);
+        System.out.println(object.toJSONString());
+
+        /*String address="广东省广州市海珠区体育中心地铁站A出口";
+        JSONObject object=BaiduMapUtil.getLocation(address);
+        System.out.println(object.getString("lng"));
+        System.out.println(object.getString("lat"));*/
     }
 
 }
