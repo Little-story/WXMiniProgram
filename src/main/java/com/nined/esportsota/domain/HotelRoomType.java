@@ -69,6 +69,12 @@ public class HotelRoomType implements Serializable  {
     //审核状态1待审核2审核通过99不通过
     private Integer reviewStatus;
 
+    //电脑id
+    private Integer computerId;
+
+    @Transient
+    private HotelRoomComputer hotelRoomComputer;
+
     @Transient
     private String mobile;
 }

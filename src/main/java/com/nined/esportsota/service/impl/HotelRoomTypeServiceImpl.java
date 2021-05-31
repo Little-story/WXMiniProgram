@@ -1,7 +1,9 @@
 package com.nined.esportsota.service.impl;
 
+import com.nined.esportsota.domain.HotelRoomComputer;
 import com.nined.esportsota.domain.HotelRoomType;
 import com.nined.esportsota.domain.Shop;
+import com.nined.esportsota.repository.HotelRoomComputerRepository;
 import com.nined.esportsota.repository.HotelRoomTypeRepository;
 import com.nined.esportsota.repository.ShopRepository;
 import com.nined.esportsota.service.HotelRoomTypeService;
@@ -27,6 +29,8 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
     private HotelRoomTypeRepository hotelRoomTypeRepository;
     @Autowired
     private ShopRepository shopRepository;
+    @Autowired
+    private HotelRoomComputerRepository hotelRoomComputerRepository;
 
     @Autowired
     private HotelRoomTypeMapper hotelRoomTypeMapper;
@@ -38,8 +42,15 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
         List<HotelRoomType> list=page.getContent();
         if (!StringUtils.isEmpty(list)||list.size()>0){
             for (HotelRoomType hotelRoomType:page.getContent()){
+                //手机号信息
                 Shop shop=shopRepository.findById(hotelRoomType.getShopId()).get();
                 hotelRoomType.setMobile(shop.getMobile());
+                //电脑信息
+                if (!StringUtils.isEmpty(hotelRoomType.getComputerId())){
+                    hotelRoomType.setHotelRoomComputer(hotelRoomComputerRepository.findById(hotelRoomType.getComputerId()).orElse(new HotelRoomComputer()));
+                }else {
+                    hotelRoomType.setHotelRoomComputer(new HotelRoomComputer());
+                }
             }
         }
 

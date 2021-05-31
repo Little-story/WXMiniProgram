@@ -1,5 +1,6 @@
 package com.nined.esportsota.service.dto;
 
+import com.nined.esportsota.domain.HotelRoomComputer;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -37,6 +38,8 @@ public class HotelRoomTypeDTO implements Serializable {
     private String label;
 
     private String mobile;
+
+    private HotelRoomComputer hotelRoomComputer;
 
     public Map<String,List<String>> getFacilitiesList() {
         Map<String, List<String>> map = new HashMap<>();

@@ -36,7 +36,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
     }
 
     @Override
-    public List<HotelRoom> orderRoom(Integer roomTypeId, Integer num){
-        return hotelRoomRepository.findByRoomTypeId(roomTypeId,num);
+    public int roomNum(Integer roomTypeId){
+        return hotelRoomRepository.countByRoomTypeId(roomTypeId);
     }
 }

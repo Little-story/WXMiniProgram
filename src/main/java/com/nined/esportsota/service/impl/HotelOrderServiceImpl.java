@@ -123,9 +123,18 @@ public class HotelOrderServiceImpl implements HotelOrderService {
         }
         if (StringUtils.isEmpty(hotelOrderVO.getShopId())||StringUtils.isEmpty(hotelOrderVO.getRoomTypeId())||StringUtils.isEmpty(hotelOrderVO.getBookInDate())
         ||StringUtils.isEmpty(hotelOrderVO.getBookOutDate())||StringUtils.isEmpty(hotelOrderVO.getOrderUserList())||StringUtils.isEmpty(hotelOrderVO.getActualAmount())
-                ||StringUtils.isEmpty(hotelOrderVO.getPayMethod())||StringUtils.isEmpty(hotelOrderVO.getUserId())){
+                ||StringUtils.isEmpty(hotelOrderVO.getPayMethod())||StringUtils.isEmpty(hotelOrderVO.getUserId())||StringUtils.isEmpty(hotelOrderVO.getRoomNum())){
             throw new BadRequestException("参数异常!");
         }
+
+        //查询剩余房间
+        int roomNum=hotelRoomRepository.countByRoomTypeId(hotelOrderVO.getRoomTypeId());
+        if (roomNum==0){
+            throw new BadRequestException("已经没有房间可以预定！");
+        }else if (hotelOrderVO.getRoomNum()>roomNum){
+            throw new BadRequestException("所剩房间已不足以预定！");
+        }
+
         Shop shop=shopRepository.findById(hotelOrderVO.getShopId()).orElse(new Shop());
         Users user=userRepository.findById(hotelOrderVO.getUserId()).orElse(new Users());
         String orderId=getOrderId();

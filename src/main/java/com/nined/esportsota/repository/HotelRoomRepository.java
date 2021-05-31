@@ -15,6 +15,14 @@ public interface HotelRoomRepository extends JpaRepository<HotelRoom,Integer>, J
     List<HotelRoom> findByRoomTypeId(Integer roomTypeId,Integer limit);
 
 
-    @Query(value = "select count(*) from hotel_room where shop_id=?1",nativeQuery = true)
+    @Query(value = "select count(*) from hotel_room where shop_id=?1 and status=1",nativeQuery = true)
     int countByShopId(Integer shopId);
+
+    /**
+     * 可预订的房间数
+     * @param roomTypeId
+     * @return
+     */
+    @Query(value = "select count(*) from hotel_room where room_type_id=?1 and status=1 and room_status=1",nativeQuery = true)
+    int countByRoomTypeId(Integer roomTypeId);
 }
