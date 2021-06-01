@@ -24,6 +24,8 @@ public class ShopDTO implements Serializable {
 
     private String district;
 
+    private String address;
+
     private String tel;
 
     private String tag;
