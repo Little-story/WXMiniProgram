@@ -1,6 +1,7 @@
 package com.nined.esportsota.service.impl;
 
 import com.nined.esportsota.domain.HotelRoom;
+import com.nined.esportsota.repository.HotelOrderRepository;
 import com.nined.esportsota.repository.HotelRoomRepository;
 import com.nined.esportsota.service.HotelRoomService;
 import com.nined.esportsota.service.HotelRoomTypeService;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,8 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 
     @Autowired
     private HotelRoomRepository hotelRoomRepository;
+    @Autowired
+    private HotelOrderRepository hotelOrderRepository;
 
     @Autowired
     private HotelRoomMapper hotelRoomMapper;
@@ -36,7 +41,21 @@ public class HotelRoomServiceImpl implements HotelRoomService {
     }
 
     @Override
-    public int roomNum(Integer roomTypeId){
-        return hotelRoomRepository.countByRoomTypeId(roomTypeId);
+    public List<HotelRoom> roomNum(HotelRoomQueryCriteria criteria){
+        List<HotelRoom> roomList=new ArrayList<>();
+        criteria.setStatus(1);
+        criteria.setRoomStatus(1);
+        Timestamp bookInDate=new Timestamp(criteria.getBookInDate());
+        Timestamp bookOutDate=new Timestamp(criteria.getBookOutDate());
+        List<HotelRoom> list = hotelRoomRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)));
+        for (HotelRoom hotelRoom:list){
+            //查询房间是否在预定时间内
+            String roomId="%"+hotelRoom.getId()+"%";
+            int result=hotelOrderRepository.countByRoomOrder(roomId,bookInDate,bookOutDate);
+            if (result==0){
+                roomList.add(hotelRoom);
+            }
+        }
+        return roomList;
     }
 }

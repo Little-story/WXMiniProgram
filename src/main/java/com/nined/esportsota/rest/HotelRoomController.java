@@ -37,11 +37,11 @@ public class HotelRoomController {
     @GetMapping(value = "/roomNum")
     public ResponseEntity<Object> query(HotelRoomQueryCriteria criteria) {
 
-        if(StringUtils.isEmpty(criteria.getRoomTypeId())){
+        if(StringUtils.isEmpty(criteria.getRoomTypeId())||StringUtils.isEmpty(criteria.getBookInDate())||StringUtils.isEmpty(criteria.getBookOutDate())){
             throw new BadRequestException("参数异常");
         }
         Map map=new HashMap();
-        map.put("data",hotelRoomService.roomNum(criteria.getRoomTypeId()));
+        map.put("data",hotelRoomService.roomNum(criteria).size());
         map.put("status",HttpStatus.OK.value());
         map.put("message","成功");
         return new ResponseEntity<>(map, HttpStatus.OK);

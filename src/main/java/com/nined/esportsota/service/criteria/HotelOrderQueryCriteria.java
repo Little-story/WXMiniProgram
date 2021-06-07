@@ -3,6 +3,8 @@ package com.nined.esportsota.service.criteria;
 import com.nined.esportsota.annotation.Query;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Data
 public class HotelOrderQueryCriteria {
 

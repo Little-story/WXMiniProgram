@@ -13,6 +13,7 @@ import com.nined.esportsota.service.dto.UserDTO;
 import com.nined.esportsota.service.mapper.UserMapper;
 import com.nined.esportsota.utils.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,7 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isEmpty(mobile)){
             throw new BadRequestException("参数异常");
         }
-        Random random=new Random();
-        String code= (random.nextInt(9999)+1000)+"";
+        String code= RandomStringUtils.random(4,"0123456789");
         //有效期为10分钟
         redisService.set(RedisKey.WX_VERIFY_MOBILE+mobile,code,10L, TimeUnit.MINUTES);
         return SmsUtil.sendCode(mobile,code);

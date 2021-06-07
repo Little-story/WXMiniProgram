@@ -4,7 +4,9 @@ import cn.hutool.http.HttpUtil;
 import com.nined.esportsota.domain.*;
 import com.nined.esportsota.repository.*;
 import com.nined.esportsota.service.HotelOrderService;
+import com.nined.esportsota.service.HotelRoomService;
 import com.nined.esportsota.service.PayService;
+import com.nined.esportsota.service.criteria.HotelRoomQueryCriteria;
 import com.nined.esportsota.utils.PayUtil;
 import com.nined.esportsota.utils.StringUtil;
 import com.nined.esportsota.utils.WXUtil;
@@ -26,6 +28,8 @@ public class PayServiceImpl implements PayService {
 
     @Autowired
     private HotelOrderService hotelOrderService;
+    @Autowired
+    private HotelRoomService hotelRoomService;
 
     @Autowired
     private HotelOrderRepository hotelOrderRepository;
@@ -96,17 +100,30 @@ public class PayServiceImpl implements PayService {
         hotelOrder.setPayStatus(1);
         hotelOrder.setPayTime(new Timestamp(new Date().getTime()));
 
-        List<HotelRoom> roomList=hotelRoomRepository.findByRoomTypeId(hotelOrder.getRoomTypeId(),hotelOrder.getRoomNum());
+        //查询可预订房间
+        HotelRoomQueryCriteria criteria=new HotelRoomQueryCriteria();
+        criteria.setRoomTypeId(hotelOrder.getRoomTypeId());
+        criteria.setBookInDate(hotelOrder.getBookInDate().getTime());
+        criteria.setBookOutDate(hotelOrder.getBookOutDate().getTime());
+        List<HotelRoom> roomList=hotelRoomService.roomNum(criteria);
+
+        //修改房间、订单信息
         String roomArr="";
         if (StringUtils.isEmpty(roomList)||roomList.size()<=0){
             flag=0;
             hotelOrderService.cancelOrder(hotelOrder.getOrderId(),hotelOrder.getUserId());
             return flag;
         }else {
-            for (HotelRoom hotelRoom:roomList){
+            //预定房间数量
+            for (int i=0;i<hotelOrder.getRoomNum();i++){
+                HotelRoom hotelRoom= roomList.get(i);
                 hotelRoom.setRoomStatus(2);
                 hotelRoomRepository.save(hotelRoom);
-                roomArr+=hotelRoom.getId();
+                if (i==hotelOrder.getRoomNum()-1){
+                    roomArr+=hotelRoom.getId();
+                }else {
+                    roomArr+=hotelRoom.getId()+";";
+                }
             }
         }
         hotelOrder.setRoomList(roomArr);
