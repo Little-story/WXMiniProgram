@@ -4,6 +4,7 @@ import com.nined.esportsota.domain.HotelRoomComputer;
 import com.nined.esportsota.domain.HotelRoomType;
 import com.nined.esportsota.domain.Shop;
 import com.nined.esportsota.repository.HotelRoomComputerRepository;
+import com.nined.esportsota.repository.HotelRoomTypeImageUserRepository;
 import com.nined.esportsota.repository.HotelRoomTypeRepository;
 import com.nined.esportsota.repository.ShopRepository;
 import com.nined.esportsota.service.HotelRoomTypeService;
@@ -31,6 +32,8 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
     private ShopRepository shopRepository;
     @Autowired
     private HotelRoomComputerRepository hotelRoomComputerRepository;
+    @Autowired
+    private HotelRoomTypeImageUserRepository hotelRoomTypeImageUserRepository;
 
     @Autowired
     private HotelRoomTypeMapper hotelRoomTypeMapper;
@@ -40,7 +43,7 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
         criteria.setStatus(1);
         Page<HotelRoomType> page=hotelRoomTypeRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         List<HotelRoomType> list=page.getContent();
-        if (!StringUtils.isEmpty(list)||list.size()>0){
+        if (!StringUtils.isEmpty(list)&&list.size()>0){
             for (HotelRoomType hotelRoomType:page.getContent()){
                 //手机号信息
                 Shop shop=shopRepository.findById(hotelRoomType.getShopId()).get();
@@ -51,6 +54,9 @@ public class HotelRoomTypeServiceImpl implements HotelRoomTypeService {
                 }else {
                     hotelRoomType.setHotelRoomComputer(new HotelRoomComputer());
                 }
+                //补充房型图片
+                List<String> imageList=hotelRoomTypeImageUserRepository.findByRoomTypeId(hotelRoomType.getId());
+                hotelRoomType.setImageList(imageList);
             }
         }
 

@@ -115,7 +115,7 @@ public class PayServiceImpl implements PayService {
             return flag;
         }else {
             //预定房间数量
-            for (int i=0;i<hotelOrder.getRoomNum();i++){
+            for (int i=0;i<roomList.size();i++){
                 HotelRoom hotelRoom= roomList.get(i);
                 hotelRoom.setRoomStatus(2);
                 hotelRoomRepository.save(hotelRoom);
@@ -123,6 +123,9 @@ public class PayServiceImpl implements PayService {
                     roomArr+=hotelRoom.getId();
                 }else {
                     roomArr+=hotelRoom.getId()+";";
+                }
+                if (roomList.size()==1){
+                    hotelOrder.setRoomId(hotelRoom.getId());
                 }
             }
         }
@@ -186,7 +189,7 @@ public class PayServiceImpl implements PayService {
 
     private String getNotifyUrl(){
         //服务域名
-        return url + "/ota/wx/xcxNotify";
+        return url + "/wx/xcxNotify";
     }
 
     public Integer getOrderUserCode() {

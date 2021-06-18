@@ -4,6 +4,7 @@ import com.nined.esportsota.annotation.Query;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class HotelRoomQueryCriteria {
@@ -14,8 +15,8 @@ public class HotelRoomQueryCriteria {
     @Query
     private Integer status;
 
-    @Query
-    private Integer roomStatus;
+    @Query(type = Query.Type.NOT_IN)
+    private List<Integer> roomStatus;
 
     private Long bookInDate;
 

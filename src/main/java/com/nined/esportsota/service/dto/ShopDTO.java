@@ -64,6 +64,8 @@ public class ShopDTO implements Serializable {
 
     private Integer roomNum;
 
+    private Double originalPrice;
+
     public List<String> getImageList(){
         List<String> imageList=new ArrayList<>();
         if (!StringUtils.isEmpty(this.image)){

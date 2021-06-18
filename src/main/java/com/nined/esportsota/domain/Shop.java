@@ -168,4 +168,7 @@ public class Shop implements Serializable  {
 
     @Transient
     private String bedTypeName;
+
+    @Transient
+    private Double originalPrice;
 }

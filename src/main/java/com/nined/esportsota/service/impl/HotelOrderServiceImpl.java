@@ -220,6 +220,7 @@ public class HotelOrderServiceImpl implements HotelOrderService {
                 e.printStackTrace();
             }
             if("SUCCESS".equals(res.get("return_code")) && "SUCCESS".equals(res.get("result_code"))){
+                hotelOrder.setIsRefund(true);
                 systemCancelOrder(hotelOrder);
                 b=true;
             }else{

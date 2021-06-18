@@ -62,7 +62,7 @@ spring:
     #连接超时时间
     timeout: 5000
 
-url: https://hotel.233esports.com
+url: https://hotel.233esports.com/ota
 
 file:
   path:

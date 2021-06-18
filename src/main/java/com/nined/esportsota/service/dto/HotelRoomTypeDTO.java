@@ -41,6 +41,10 @@ public class HotelRoomTypeDTO implements Serializable {
 
     private HotelRoomComputer hotelRoomComputer;
 
+    private List<String> imageList;
+
+    private Double originalPrice;
+
     public Map<String,List<String>> getFacilitiesList() {
         Map<String, List<String>> map = new HashMap<>();
         List<String> amenities = new ArrayList<>();

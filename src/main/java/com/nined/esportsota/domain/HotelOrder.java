@@ -122,4 +122,7 @@ public class HotelOrder implements Serializable  {
 
     //房间号列表
     private String roomList;
+
+    //是否退款
+    private Boolean isRefund;
 }

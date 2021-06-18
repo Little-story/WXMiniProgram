@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,14 +45,17 @@ public class HotelRoomServiceImpl implements HotelRoomService {
     public List<HotelRoom> roomNum(HotelRoomQueryCriteria criteria){
         List<HotelRoom> roomList=new ArrayList<>();
         criteria.setStatus(1);
-        criteria.setRoomStatus(1);
-        Timestamp bookInDate=new Timestamp(criteria.getBookInDate());
-        Timestamp bookOutDate=new Timestamp(criteria.getBookOutDate());
+        List<Integer> roomStatus=new ArrayList<>();
+        roomStatus.add(99);
+        criteria.setRoomStatus(roomStatus);
         List<HotelRoom> list = hotelRoomRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)));
         for (HotelRoom hotelRoom:list){
             //查询房间是否在预定时间内
             String roomId="%"+hotelRoom.getId()+"%";
-            int result=hotelOrderRepository.countByRoomOrder(roomId,bookInDate,bookOutDate);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            String startTime=sdf.format(criteria.getBookInDate());
+            String endTime=sdf.format(criteria.getBookOutDate());
+            int result=hotelOrderRepository.countByRoomOrder(roomId,startTime,endTime);
             if (result==0){
                 roomList.add(hotelRoom);
             }

@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -72,9 +73,15 @@ public class HotelRoomType implements Serializable  {
     //电脑id
     private Integer computerId;
 
+    //原价
+    private Double originalPrice;
+
     @Transient
     private HotelRoomComputer hotelRoomComputer;
 
     @Transient
     private String mobile;
+
+    @Transient
+    private List<String> imageList;
 }

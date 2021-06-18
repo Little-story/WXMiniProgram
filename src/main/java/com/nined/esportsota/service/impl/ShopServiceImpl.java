@@ -99,6 +99,7 @@ public class ShopServiceImpl implements ShopService {
             shop.setRoomTypeName(hotelRoomType.getName());
             shop.setBedTypeName(hotelRoomType.getBedType());
             shop.setRoomNum(roomNum);
+            shop.setOriginalPrice(hotelRoomType.getOriginalPrice());
         }
         return shop;
     }

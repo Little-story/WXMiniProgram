@@ -28,7 +28,8 @@ public interface HotelOrderRepository extends JpaRepository<HotelOrder,Integer>,
      * 时间段内已预订的房间
      * @return
      */
-    @Query(value = "select count(*) from hotel_order where status=2 and (room_list like ?1 or room_id like ?1) and" +
+    @Query(value = "select count(*) from hotel_order where status in (2,3) and (room_list like ?1 or room_id like ?1) and" +
             " ((book_in_date between ?2 and ?3) or (book_out_date between ?2 and ?3))",nativeQuery = true)
-    int countByRoomOrder(String roomId, Timestamp bookInDate,Timestamp bookOutDate);
+    int countByRoomOrder(String roomId, String bookInDate,String bookOutDate);
+
 }
