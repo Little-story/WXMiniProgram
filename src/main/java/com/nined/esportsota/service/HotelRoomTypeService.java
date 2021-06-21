@@ -1,6 +1,8 @@
 package com.nined.esportsota.service;
 
 import com.nined.esportsota.service.criteria.HotelRoomTypeQueryCriteria;
+import com.nined.esportsota.service.dto.HotelRoomDTO;
+import com.nined.esportsota.service.dto.HotelRoomTypeDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +16,11 @@ public interface HotelRoomTypeService {
      * @return /
      */
     Object queryAll(HotelRoomTypeQueryCriteria criteria, Pageable pageable);
+
+    /**
+     * 房间详情
+     * @param criteria
+     * @return
+     */
+    HotelRoomTypeDTO detail(Integer roomTypeId);
 }

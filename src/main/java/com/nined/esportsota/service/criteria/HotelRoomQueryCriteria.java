@@ -22,4 +22,6 @@ public class HotelRoomQueryCriteria {
 
     private Long bookOutDate;
 
+    private Integer roomId;
+
 }

@@ -11,4 +11,6 @@ public class HotelRoomTypeQueryCriteria {
 
     @Query
     private Integer status;
+
+    private Integer roomTypeId;
 }

@@ -11,8 +11,10 @@ import com.nined.esportsota.repository.*;
 import com.nined.esportsota.rest.HotelOrderController;
 import com.nined.esportsota.rest.WXController;
 import com.nined.esportsota.service.HotelOrderService;
+import com.nined.esportsota.service.HotelRoomService;
 import com.nined.esportsota.service.PayService;
 import com.nined.esportsota.service.criteria.HotelOrderQueryCriteria;
+import com.nined.esportsota.service.criteria.HotelRoomQueryCriteria;
 import com.nined.esportsota.service.dto.HotelOrderDTO;
 import com.nined.esportsota.service.mapper.HotelOrderMapper;
 import com.nined.esportsota.service.mapper.HotelRoomTypeMapper;
@@ -53,13 +55,15 @@ public class HotelOrderServiceImpl implements HotelOrderService {
     @Autowired
     private HotelOrderUserRepository hotelOrderUserRepository;
 
-    private static Logger logger= LoggerFactory.getLogger(HotelOrderServiceImpl.class);
+    @Autowired
+    private HotelRoomService hotelRoomService;
 
     @Autowired
     private HotelOrderMapper hotelOrderMapper;
     @Autowired
     private HotelRoomTypeMapper hotelRoomTypeMapper;
 
+    private static Logger logger= LoggerFactory.getLogger(HotelOrderServiceImpl.class);
 
     @Override
     public Object queryAll(HotelOrderQueryCriteria criteria, Pageable pageable) {
@@ -128,7 +132,11 @@ public class HotelOrderServiceImpl implements HotelOrderService {
         }
 
         //查询剩余房间
-        int roomNum=hotelRoomRepository.countByRoomTypeId(hotelOrderVO.getRoomTypeId());
+        HotelRoomQueryCriteria criteria=new HotelRoomQueryCriteria();
+        criteria.setRoomTypeId(hotelOrderVO.getRoomTypeId());
+        criteria.setBookInDate(hotelOrderVO.getBookInDate().getTime());
+        criteria.setBookOutDate(hotelOrderVO.getBookOutDate().getTime());
+        int roomNum=hotelRoomService.roomNum(criteria).size();
         if (roomNum==0){
             throw new BadRequestException("已经没有房间可以预定！");
         }else if (hotelOrderVO.getRoomNum()>roomNum){

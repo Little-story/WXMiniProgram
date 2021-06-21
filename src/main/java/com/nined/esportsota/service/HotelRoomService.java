@@ -2,6 +2,7 @@ package com.nined.esportsota.service;
 
 import com.nined.esportsota.domain.HotelRoom;
 import com.nined.esportsota.service.criteria.HotelRoomQueryCriteria;
+import com.nined.esportsota.service.dto.HotelRoomDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

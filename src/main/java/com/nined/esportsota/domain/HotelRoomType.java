@@ -84,4 +84,7 @@ public class HotelRoomType implements Serializable  {
 
     @Transient
     private List<String> imageList;
+
+    @Transient
+    private String shopName;
 }

@@ -16,6 +16,7 @@ public class HotelRoomTypeDTO implements Serializable {
     private Integer id;
 
     private Integer shopId;
+    private String shopName;
 
     private String name;
 

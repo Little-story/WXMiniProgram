@@ -7,6 +7,7 @@ import com.nined.esportsota.service.HotelRoomService;
 import com.nined.esportsota.service.HotelRoomTypeService;
 import com.nined.esportsota.service.criteria.HotelRoomQueryCriteria;
 import com.nined.esportsota.service.criteria.HotelRoomTypeQueryCriteria;
+import com.nined.esportsota.service.dto.HotelRoomDTO;
 import com.nined.esportsota.service.mapper.HotelRoomMapper;
 import com.nined.esportsota.utils.PageUtil;
 import com.nined.esportsota.utils.QueryHelp;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
         criteria.setStatus(1);
         List<Integer> roomStatus=new ArrayList<>();
         roomStatus.add(99);
+        roomStatus.add(5);
         criteria.setRoomStatus(roomStatus);
         List<HotelRoom> list = hotelRoomRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)));
         for (HotelRoom hotelRoom:list){
