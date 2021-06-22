@@ -19,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/login")
+@CrossOrigin
 public class LoginController {
 
     @Autowired
@@ -47,6 +48,15 @@ public class LoginController {
     public ResponseEntity<Object> bindUser(@RequestBody Login login) {
         Map map=new HashMap();
         map.put("data",loginService.bindUser(login));
+        map.put("status",HttpStatus.OK.value());
+        map.put("message","成功");
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findByToken")
+    public ResponseEntity<Object> findByToken(String sessionId) {
+        Map map=new HashMap();
+        map.put("data", loginService.findByToken(sessionId));
         map.put("status",HttpStatus.OK.value());
         map.put("message","成功");
         return new ResponseEntity<>(map, HttpStatus.OK);

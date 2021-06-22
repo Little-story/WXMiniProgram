@@ -30,4 +30,9 @@ public interface LoginService {
      * @return
      */
     Object bindUser(Login login);
+
+    /**
+     * sessionId查找用户
+     */
+    Object findByToken(String sessionId);
 }

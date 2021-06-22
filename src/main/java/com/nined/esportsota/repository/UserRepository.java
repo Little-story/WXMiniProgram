@@ -11,4 +11,7 @@ public interface UserRepository extends JpaRepository<Users,Integer>, JpaSpecifi
 
     @Query(value = "select * from user where mobile=?1",nativeQuery = true)
     Users findByMobile(String mobile);
+
+    @Query(value = "select * from user where session_id=?1",nativeQuery = true)
+    Users findBySessionId(String sessionId);
 }

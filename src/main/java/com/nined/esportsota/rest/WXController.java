@@ -32,6 +32,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/wx")
+@CrossOrigin
 public class WXController {
 
     @Autowired

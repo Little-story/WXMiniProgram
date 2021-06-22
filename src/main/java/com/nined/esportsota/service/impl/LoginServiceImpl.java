@@ -13,6 +13,7 @@ import com.nined.esportsota.service.dto.UserDTO;
 import com.nined.esportsota.service.mapper.UserMapper;
 import com.nined.esportsota.utils.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +78,23 @@ public class LoginServiceImpl implements LoginService {
         }
 
         return getUserInfo(login);
+    }
+
+    @Override
+    public Object findByToken(String sessionId){
+        if (StringUtils.isEmpty(sessionId)){
+            throw new BadRequestException("参数异常");
+        }
+        Users user=userRepository.findBySessionId(sessionId);
+        if (StringUtils.isEmpty(user)){
+            throw new BadRequestException("未找到此用户");
+        }
+        UserDTO userDTO=userMapper.toDto(user);
+        String token=TokenUtils.getToken(user.getMobile());
+        redisService.set(RedisKey.WX_USER_TOKEN+userDTO.getId(),token);
+        userDTO.setToken(token);
+        userDTO.setOpenid("test111");
+        return userDTO;
     }
 
     private UserDTO getUserInfo(Login login){

@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hotelRoomType")
+@CrossOrigin
 public class HotelRoomTypeController {
 
     @Autowired

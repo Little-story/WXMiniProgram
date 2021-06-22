@@ -54,6 +54,8 @@ spring:
             multi-statement-allow: true
   jpa:
     open-in-view: false
+  main:
+    allow-bean-definition-overriding: true
 
   redis:
     #数据库索引
